@@ -1,21 +1,42 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
-type person struct {
-	name string
-	age  int
+type Person struct {
+	Name string
+	Age  int
 }
-type ByAge [] person
-func (a ByAge) len() int {return len(a)}
-func (a ByAge) Swap(i, j int) { a[i], a[j]}
-func main() {
-	p1 := person{name: "Win", age: 21}
-	p2 := person{name: "Winner", age: 45}
-	p3 := person{name: "Best", age: 24}
-	p4 := person{name: "Queen", age: 12}
 
-	people := []person{p1, p2, p3, p4}
+type ByName [] Person
+
+func (a ByName) Len() int           { return len(a) }
+func (a ByName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByName) Less(i, j int) bool { return a[i].Name< a[j].Name }
+
+
+
+type ByAge []Person
+
+func (a ByAge) Len() int           { return len(a) }
+func (a ByAge) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByAge) Less(i, j int) bool { return a[i].Age < a[j].Age }
+
+func main() {
+	p1 := Person{Name: "Win", Age: 21}
+	p2 := Person{Name: "Winner", Age: 45}
+	p3 := Person{Name: "Best", Age: 24}
+	p4 := Person{Name: "Queen", Age: 12}
+
+	people := []Person{p1, p2, p3, p4}
 	fmt.Println(people)
+	sort.Sort(ByAge(people))
+	fmt.Println("Sorted by Age", people)
+
+	sort.Sort(ByName(people))
+	fmt.Println("Sorted by Name", people)
+
 
 }
